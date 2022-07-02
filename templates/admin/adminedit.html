@@ -1,0 +1,56 @@
+{% extends 'adminbasic.html' %} 
+{% block content %}
+{% load static %}
+<div class="active-details">
+  
+  <div class="recentOrders" data-aos="zoom-in" style="height: 100%;">
+      <div class="cardHeader">
+          <h2><a href="{% url 'admintable' %}"><img src="{% static 'img/animation_300_l52rndz5.gif' %}" alt="" width="8%" style="transform: rotate(90deg);margin: 0;"></a>Assign Tickets</h2>
+      </div><br>
+      <!-- Card Header - Dropdown -->
+      <!-- Card Body -->
+      
+          {% if messages %} 
+          {% for message in messages %}
+          <h3 style="color: #149ddd">{{message}}</h3>
+          {% endfor %} 
+          {% endif %}
+          {% if item %}
+
+          <form method="POST" action="{% url 'update_ticket' item.Id %}">
+            {% csrf_token %}
+            <label for="due_date">Due Date</label>
+            <input type="date" class="form-control" name="due_date" value="{{item.due_date}}" /><br>
+            <label for="">Assign To</label>
+            <select name="assigned" class="form-control" value="{{item.assigned}}">
+              <option value="none">Choose...</option>
+              {% for engineer in eng %}
+              {% if engineer.is_engineer %}
+              <option value="{{engineer.username}}">{{engineer.username}}</option>
+              {% endif %}
+              {% endfor %}
+            </select><br>
+            <label for="">Troubleshoot</label>
+            <textarea class="form-control" name="admindesc" placeholder="Troubleshoot Description" value="{{item.admindesc}}"></textarea>
+            <br>
+              <button type="submit" class="btn" style="width:25%;
+              margin: 0;
+              position: relative;
+              float: right!important;
+              padding: 10px;
+              border: 2px solid var(--blue);
+              background: transparent;
+              text-decoration: none;
+              color: var(--blue);
+              border-radius: 2rem;
+              transition: .5s ease-in;
+              font-size: 15px;
+              font-weight: 600;
+              letter-spacing: .5mm;background-color:#292565; color:white;">Submit</button>
+          </form>
+         
+        
+      {% endif %}
+      </div>
+    </div>
+{% endblock %}
